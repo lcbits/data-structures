@@ -7,15 +7,34 @@ var HashTable = function() {
 
 HashTable.prototype.insert = function(key, value) {
   var index = getIndexBelowMaxForKey(key, this._limit);
-  
-  //go into storage[index] 
   var indexArray = [];
   var keyValuePair = [key,value];
-  indexArray.push(keyValuePair);
-
-  this._storage.set(index, indexArray);
+  //go into storage[index]
+  // if(this._storage.get(index) !== []){
+  //   var newIndexArray = this._storage.get(index).push(keyValuePair);
+  //   this._storage.set(index, newIndexArray);
+  // } else {
+  //     indexArray.push(keyValuePair);
+  //     this._storage.set(index, indexArray);
+  // }
+  
+// if empty, set index to the first value
+  if(this._storage.get(index) === undefined){
+    indexArray.push(keyValuePair);
+    this._storage.set(index, indexArray);
+  }
+  // if not empty,
+  if(this._storage.get(index) !== undefined){
+    //get the value, store it in a variable
+    var temp = this._storage.get(index);
+    // //push the variable into the indexArray
+    // indexArray.push(temp);
+    //push the new value into the indexArray
+    temp.push([key, value]);
+    //set the indexArray into index
+    this._storage.set(index, temp);
   // console.log(this._storage.get(index));
-
+}
   // console.log(index, value);
   // console.log(this._storage.get(index));
   // console.log(indexArray);
@@ -33,7 +52,7 @@ HashTable.prototype.retrieve = function(key) {
       console.log(bigArrayOfKeyValuePairs);
       return bigArrayOfKeyValuePairs[i][1];
     } else {
-      return key;
+      return value;
     }
   }
  
@@ -60,12 +79,12 @@ HashTable.prototype.remove = function(key) {
  * Complexity: What is the time complexity of the above functions?
  */
 
-var newTable = new HashTable();
-console.log(newTable.insert('Steven', 'Seagal'));
-console.log(newTable.insert('St', 'Sgal'));
-console.log(newTable.insert('ven', 'Sgal'));
-// console.log(newTable.remove('Steven'));
+// var newTable = new HashTable();
+// console.log(newTable.insert('Steven', 'Seagal'));
+// console.log(newTable.insert('St', 'Sgal'));
+// console.log(newTable.insert('ven', 'Sgal'));
+// // console.log(newTable.remove('Steven'));
+// // console.log(newTable.retrieve('Steven'));
 // console.log(newTable.retrieve('Steven'));
-console.log(newTable.retrieve('Steven'));
-  console.log(newTable.retrieve('St'));
-    console.log(newTable.retrieve('ven'));
+//   console.log(newTable.retrieve('St'));
+//     console.log(newTable.retrieve('ven'));
